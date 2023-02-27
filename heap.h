@@ -110,8 +110,8 @@ void Heap<T, PComparator>::trickleUp(unsigned int loc)
  unsigned int parent = (loc-1)/m_;
  while (parent>=0 && c_(data[loc], data[parent]))
  {
-	 std::swap(data[parent], data[loc]);
-	 	loc = parent;
+	  std::swap(data[parent], data[loc]);
+	  loc = parent;
   	parent = (loc)/m_;
  }
 //  if(c(data[loc],data[parent])) //if comparater c returns true -->then min heap
@@ -200,21 +200,39 @@ void Heap<T, PComparator>::Heapify(unsigned int idx)
 	if(smallerChild+1 > data.size())
 	{
 		return;
-	}
-	while(smallerChild+1 <data.size())
-	{
-		unsigned int currChild = smallerChild +1;
-			if(c_(data[currChild],data[smallerChild]))
+	}else{
+			for(unsigned int i = 1; i<= m_; i++){
+				if(smallerChild+i < data.size()){
+					unsigned int currChild = smallerChild +i;
+					if(c_(data[currChild],data[smallerChild]))
 					{
 						smallerChild = currChild;
 					}
-	}
-		if(c_(data[smallerChild], data[idx]))
-			{
-				swap(data[idx], data[smallerChild]);
-				smallerChild = parent;
-				Heapify(smallerChild);
+					//currChild++;
+				}
 			}
+			if(c_(data[smallerChild], data[idx]))
+				{
+					swap(data[idx], data[smallerChild]);
+					smallerChild = parent;
+					Heapify(smallerChild);
+				}
+		
+	}
+	// while(smallerChild+1 <data.size())
+	// {
+	// 	unsigned int currChild = smallerChild +1;
+	// 		if(c_(data[currChild],data[smallerChild]))
+	// 				{
+	// 					smallerChild = currChild;
+	// 				}
+	// }
+	// 	if(c_(data[smallerChild], data[idx]))
+	// 		{
+	// 			swap(data[idx], data[smallerChild]);
+	// 			smallerChild = parent;
+	// 			Heapify(smallerChild);
+	// 		}
 }
 
 

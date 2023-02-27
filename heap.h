@@ -3,6 +3,7 @@
 #include <functional>
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 template <typename T, typename PComparator = std::less<T> >
@@ -108,12 +109,14 @@ void Heap<T, PComparator>::trickleUp(unsigned int loc)
 {
   //starting at 0  of the indexes
  unsigned int parent = (loc-1)/m_;
- while (parent>=0 && c_(data[loc], data[parent]))
+ while (loc > 0 && c_(data[loc], data[parent]))
  {
 	  std::swap(data[parent], data[loc]);
 	  loc = parent;
-  	parent = (loc)/m_;
+  	parent = (loc-1)/m_;
+
  }
+}
 //  if(c(data[loc],data[parent])) //if comparater c returns true -->then min heap
 //  {
 // 	 	std::swap(data[parent], data[loc]);
@@ -137,7 +140,7 @@ void Heap<T, PComparator>::trickleUp(unsigned int loc)
 //    } 
 //  }
  
-}
+
 
 // We will start top() for you to handle the case of 
 // calling top on an empty heap
@@ -194,16 +197,17 @@ void Heap<T, PComparator>::Heapify(unsigned int idx)
   //parent = m*idx
 	unsigned int parent = idx;
 	//(m * idx) +1
-	unsigned int smallerChild = (m_*idx)+1;
+	unsigned int firstChild = (m_*idx)+1;
+  unsigned int smallerChild = firstChild;
 	//for(unsigned int i =1 ; i<= m_; i++){}
 
-	if(smallerChild+1 > data.size())
+	if(firstChild+1 > data.size())
 	{
 		return;
 	}else{
-			for(unsigned int i = 1; i<= m_; i++){
-				if(smallerChild+i < data.size()){
-					unsigned int currChild = smallerChild +i;
+			for(unsigned int i = 1; i< m_; i++){
+				if(firstChild+i < data.size()){
+					unsigned int currChild = firstChild +i;
 					if(c_(data[currChild],data[smallerChild]))
 					{
 						smallerChild = currChild;
@@ -214,7 +218,6 @@ void Heap<T, PComparator>::Heapify(unsigned int idx)
 			if(c_(data[smallerChild], data[idx]))
 				{
 					swap(data[idx], data[smallerChild]);
-					smallerChild = parent;
 					Heapify(smallerChild);
 				}
 		
